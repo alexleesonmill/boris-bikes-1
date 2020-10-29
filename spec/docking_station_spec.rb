@@ -1,5 +1,5 @@
-require 'docking_station'
-require 'bike'
+require_relative '../lib/docking_station'
+require_relative '../lib/bike'
 
 describe DockingStation do
   it { is_expected.to respond_to :release_bike }
