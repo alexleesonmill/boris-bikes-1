@@ -1,3 +1,5 @@
+require 'bike'
+
 class DockingStation
   attr_reader :bike
 
@@ -8,6 +10,8 @@ class DockingStation
   end
 
   def dock(bike)
+    raise 'Dock Full' if @bike
+
     @bike = bike
   end
 end
