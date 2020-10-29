@@ -26,6 +26,12 @@ describe DockingStation do
   #   expect(subject.bikes).to be_instance_of Array
   # end
 
+  it 'returns docked bikes' do
+    bike = Bike.new
+    subject.dock(bike)
+    expect(subject.bikes).to eq [bike]
+  end
+
   describe '#release_bike' do
     it 'releases a bike' do
       bike = Bike.new
