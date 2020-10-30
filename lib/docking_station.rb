@@ -1,11 +1,12 @@
 require_relative '../lib/bike'
 
 class DockingStation
-  attr_reader :bikes, :capacity
+  attr_reader :bikes, :capacity, :broken_bikes
 
   def initialize(x = 20)
     @bikes = []
     @capacity = x
+    @broken_bikes = []
   end
 
   def release_bike
@@ -18,6 +19,10 @@ class DockingStation
     raise 'Dock Full' if full?
 
     @bikes << bike
+  end
+
+  def broken
+    @broken_bikes << @bikes.pop
   end
 
   private

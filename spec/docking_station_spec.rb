@@ -57,6 +57,16 @@ describe DockingStation do
     station = DockingStation.new(30)
     expect(station.capacity).not_to eq 20
   end
+
+  describe 'the user reporting a broken bike' do
+    it { is_expected.to respond_to :broken }
+
+    it 'allows the user to report the bike is broken' do
+      station = DockingStation.new
+      station.dock(Bike.new)
+      expect(station.broken).to eq station.broken_bikes
+    end
+  end
 end
 # it "responds to release_bike" do
 # expect(subject).to respond_to :release_bike
