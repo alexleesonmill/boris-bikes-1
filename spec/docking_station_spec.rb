@@ -2,12 +2,13 @@ require_relative '../lib/docking_station'
 require_relative '../lib/bike'
 
 describe DockingStation do
+  let(:bike) { double :bike }
   it { is_expected.to respond_to :release_bike }
 
   it 'releases working bikes' do
-    subject.dock double(:bike)
-    subject.release_bike
-    expect(subject.dock(double(:bike))).to be_working
+    allow(bike).to receive(:working?).and_return(true)
+    subject.dock bike
+    expect(subject.release_bike).to respond_to(:working?)
   end
 
   it { is_expected.to respond_to(:dock).with(1).argument }
@@ -15,18 +16,16 @@ describe DockingStation do
   it { is_expected.to respond_to(:bikes) }
 
   it 'docks something' do
-    expect(subject.dock(double(:bike))).to be_instance_of Array
+    expect(subject.dock(bike)).to be_instance_of Array
   end
 
   it 'returns docked bikes' do
-    bike = double(:bike)
     subject.dock(bike)
     expect(subject.bikes).to eq [bike]
   end
 
   describe '#release_bike' do
     it 'releases a bike' do
-      bike = double(:bike)
       subject.dock(bike)
       expect(subject.release_bike).to eq bike
     end
@@ -42,8 +41,8 @@ describe DockingStation do
     it 'raises an error when the dock is full' do
       # bike = Bike.new
       # subject.dock(bike)
-      subject.capacity.times { subject.dock double(:bike) }
-      expect { subject.dock double(:bike) }.to raise_error 'Dock Full'
+      subject.capacity.times { subject.dock bike }
+      expect { subject.dock bike }.to raise_error 'Dock Full'
     end
   end
 
@@ -61,7 +60,7 @@ describe DockingStation do
 
     it 'allows the user to report the bike is broken' do
       station = DockingStation.new
-      station.dock double(:bike)
+      station.dock bike
       expect(station.broken).to eq station.broken_bikes
     end
   end
