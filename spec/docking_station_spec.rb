@@ -20,18 +20,6 @@ describe DockingStation do
     expect(subject.dock(bike)).to be_instance_of Array
   end
 
-  # it 'returns docked bikes' do
-  #   bike = Bike.new
-  #   subject.dock(bike)
-  #   expect(subject.bikes).to be_instance_of Array
-  # end
-
-  # it 'returns docked bikes' do
-  #   bike = Bike.new
-  #   subject.dock(bike)
-  #   expect(subject.bikes).to eq bike
-  # end
-
   it 'returns docked bikes' do
     bike = Bike.new
     subject.dock(bike)
@@ -45,7 +33,7 @@ describe DockingStation do
       expect(subject.release_bike).to eq bike
     end
 
-    it 'raises an error when there are no bikes available' do
+    it 'raises an error when there are no bikes' do
       # Let's not dock a bike first:
       # remember subject == DockingStation.new
       expect { subject.release_bike }.to raise_error 'No bikes available'
@@ -56,9 +44,18 @@ describe DockingStation do
     it 'raises an error when the dock is full' do
       # bike = Bike.new
       # subject.dock(bike)
-      DockingStation::DEFAULT_CAPACITY.times { subject.dock(Bike.new) }
+      subject.capacity.times { subject.dock(Bike.new) }
       expect { subject.dock(Bike.new) }.to raise_error 'Dock Full'
     end
+  end
+
+  it 'defaults to a specified capacity' do
+    expect(subject.capacity).to eq(20)
+  end
+
+  it 'allows the controller to set their own capacity if required' do
+    station = DockingStation.new(30)
+    expect(station.capacity).not_to eq 20
   end
 end
 # it "responds to release_bike" do
